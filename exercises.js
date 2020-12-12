@@ -41,46 +41,53 @@
 		3. Implementing quicksort
 			Write a function qSort that sorts a dataset using the quicksort algorithm.
 */
-let data = [5, 34, 123, 98, 7, 0, 2, 6, 12];
+
+const data = {
+dataOdd: [5, 2, 34, 98, 0, 3, 1],
+ dataEven: [5, 2 , 34, 0, 4, 7],
+ oneEl: [1],
+ tEl: [3, 2],
+}
 // data =
 // '89 30 25 32 72 70 51 42 25 24 53 55 78 50 13 40 48 32 26 2 14 33 45 72 56 44 21 88 27 68 15 62 93 98 73 28 16 46 87 28 65 38 67 16 85 63 23 69 64 91 9 70 81 27 97 82 6 88 3 7 46 13 11 64 76 31 26 38 28 13 17 69 90 1 6 7 64 43 9 73 80 98 46 27 22 87 49 83 6 39 42 51 54 84 34 53 78 40 14 5'
 // .split(' ');
 function qSort(arr, start = 0, end = arr.length) {
-	if (start <= end) return arr;
+	if (start >= end) return arr;
 	 const middle = partition(arr, start, end);
-	 arr = qSort(arr, start, middle);
-	 arr = qSort(arr, middle + 1, end);
+	 qSort(arr, start, middle);
+	 qSort(arr, middle + 1, end);
 	 return arr;
 }
 
-function partition(arr, start, end, a = 0) {
-	const pivot = arr[0];
-	let leftIdx = 0;
-	let rightIdx = arr.length;
+function partition(arr, start, end) {
+	const pivot = arr[start];
+	let leftIdx = start;
+	let rightIdx = end;
 	while (leftIdx < rightIdx) {
 		do {
-			console.log('l');
 			leftIdx ++;
-		} while (arr[leftIdx] < pivot);
-
+		} while (arr[leftIdx] >= pivot);
 		do {
 			rightIdx --;
-			console.log(arr[rightIdx]);
-
-		}	while (arr[rightIdx] > pivot)
-		_swap(arr, arr[leftIdx], arr[rightIdx]);
+		} while (arr[rightIdx] < pivot);
+		_swap(arr, leftIdx, rightIdx);
 	}
-	_swap(arr, 0, rightIdx);
-	return leftIdx;
+	// if (leftIdx < rightIdx) {
+		_swap(arr, start, rightIdx);
+	// }
+	return rightIdx;
 }
 // [ 2, 5, 3, 1, 0]
 
 //[ 1, 0, 2, 5, 3]
 
-function _swap(arr, a, b) {
+function _swap(arr, a, y) {
 	const t = arr[a];
-	arr[a] = arr[b];
-	arr[b] = t;
+	arr[a] = arr[y];
+	arr[y] = t;
 }
-qSort(data);
-console.log(data);
+
+for (let key in data) {
+	qSort(data[key])
+	console.log(key + ' ' + data[key]);
+}
