@@ -43,10 +43,14 @@
 */
 
 const data = {
-dataOdd: [5, 2, 34, 98, 0, 3, 1],
- dataEven: [5, 2 , 34, 0, 4, 7],
- oneEl: [1],
- tEl: [3, 2],
+	// oneEl: [1],
+	twoEl: [3, 2],
+	// dup: [3, 4, 2, 3],
+	threeEl: [3,2,1,],
+	// fourEl: [4,1,2,3],
+	fiveEl: [4,5,2,3,1], 
+	// sixEl: [5, 2 , 34, 0, 3, 1],
+	sevenEl: [5, 2, 34, 98, 0, 3, 1],
 }
 // data =
 // '89 30 25 32 72 70 51 42 25 24 53 55 78 50 13 40 48 32 26 2 14 33 45 72 56 44 21 88 27 68 15 62 93 98 73 28 16 46 87 28 65 38 67 16 85 63 23 69 64 91 9 70 81 27 97 82 6 88 3 7 46 13 11 64 76 31 26 38 28 13 17 69 90 1 6 7 64 43 9 73 80 98 46 27 22 87 49 83 6 39 42 51 54 84 34 53 78 40 14 5'
@@ -54,8 +58,12 @@ dataOdd: [5, 2, 34, 98, 0, 3, 1],
 function qSort(arr, start = 0, end = arr.length) {
 	if (start >= end) return arr;
 	 const middle = partition(arr, start, end);
-	 qSort(arr, start, middle);
-	 qSort(arr, middle + 1, end);
+	 const arrL = qSort(arr, start, middle);
+	 if (middle + 1 >= end){ const arrR = qSort(arr, middle + 1, end);}
+	 if (start - middle == 1 &&  middle + 1 - end == 1) {
+		 if (arr[middle] >= arr[middle + 1]) _swap(arr, middle, middle + 1);
+		 if (arr[middle] <= arr[middle - 1]) _swap(arr, middle, middle - 1);
+	}
 	 return arr;
 }
 
@@ -70,21 +78,40 @@ function partition(arr, start, end) {
 		do {
 			rightIdx --;
 		} while (arr[rightIdx] < pivot);
-		_swap(arr, leftIdx, rightIdx);
+		// if (arr[leftIdx] > arr[leftIdx  - 1]) {
+			// _swap(arr, leftIdx, leftIdx - 1)
+		// } else {
+			_swap(arr, leftIdx, rightIdx);
+		// }
 	}
-	// if (leftIdx < rightIdx) {
-		_swap(arr, start, rightIdx);
-	// }
+	
+	if (leftIdx > rightIdx) {
+		_swap(arr, start, leftIdx);
+	 }
 	return rightIdx;
 }
+
+// function partition(arr, left, right) {
+// 	const pivot = left;
+// 	while (left <= right) {
+// 		while (arr[left] < pivot) left++;
+// 		while (arr[right] > pivot) right--;
+// 		if (left <= right) {
+// 			_swap(arr, left, right);
+// 			left++;
+// 			right--;
+// 		}
+// 	}
+// 	return left;
+// }
 // [ 2, 5, 3, 1, 0]
 
 //[ 1, 0, 2, 5, 3]
 
-function _swap(arr, a, y) {
+function _swap(arr, a, b) {
 	const t = arr[a];
-	arr[a] = arr[y];
-	arr[y] = t;
+	arr[a] = arr[b];
+	arr[b] = t;
 }
 
 for (let key in data) {
